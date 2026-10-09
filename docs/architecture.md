@@ -4,7 +4,9 @@
 > with a phone-camera scanner and handwritten-list capture.
 > **Adopt-and-adjust**: reuse mature open source for the hard parts, build only the differentiators.
 
-Status: **Draft v1** · Last updated: 2026-07-15
+Status: **Draft v1** · Last updated: 2026-10-09
+
+> Phase numbers in this doc follow [`phased-plan.md`](./phased-plan.md), which is the source of truth for sequencing.
 
 ---
 
@@ -50,7 +52,7 @@ base already contains a full accounting/GST/audit engine we can switch on later.
 
 ---
 
-## 4. Phase 1 — Base system: ERPNext + India Compliance (DECIDED)
+## 4. Base system: ERPNext + India Compliance (DECIDED) — Phases 0–1
 
 **What we get for free (why we chose it):**
 
@@ -67,7 +69,7 @@ base already contains a full accounting/GST/audit engine we can switch on later.
 **How we extend it:** our features live in a **custom Frappe app** installed alongside ERPNext +
 India Compliance, so upgrades to the base don't break our code.
 
-### Licensing rules for Phase 1 (GPLv3) — the contract we operate under
+### Licensing rules for the base (GPLv3) — the contract we operate under
 
 | | Rule |
 |---|---|
@@ -91,7 +93,7 @@ India Compliance, so upgrades to the base don't break our code.
 
 ---
 
-## 5. Phase 2 — Barcode scanning of existing manufacturer barcodes
+## 5. Barcode scanning of existing manufacturer barcodes — Phase 2
 
 - **Scanning:** `html5-qrcode` (Apache-2.0) decodes EAN-13/UPC in the browser via `getUserMedia`
   (used by the phone PWA); `ZXing-C++` (Apache-2.0) for any native/desktop decoding.
@@ -104,12 +106,23 @@ India Compliance, so upgrades to the base don't break our code.
 
 ---
 
-## 6. Phase 3 — Handwriting → inventory (the differentiator)
+## 6. Phone-as-scanner syncing to laptop — Phase 3
+
+- **Top approach (simplest robust):** laptop runs a local web server; phone opens a URL / scans a
+  pairing QR → **PWA using `getUserMedia` + html5-qrcode** decodes on the phone → result pushed to the
+  laptop over **local WiFi via WebSocket** (`ws`, MIT). No cloud, no app-store install.
+- **Fallback:** `hid-barcode-scanner` (FOSS Android) turns a phone into a **Bluetooth HID keyboard** —
+  scanned code is "typed" into the focused field. Zero integration code.
+- **Avoid for now:** WebRTC-via-QR peer connection (FOSS examples are immature/WIP).
+
+---
+
+## 7. Handwriting → inventory (the differentiator) — Phase 4
 
 **Goal:** photograph a supplier's handwritten purchase/sale list → draft stock entries → merchant
 confirms. **On-device, offline, zero hallucination.**
 
-### 6.1 Models (all commercial-safe licenses)
+### 7.1 Models (all commercial-safe licenses)
 
 - **Extraction (pick one):**
   - Traditional OCR: **PaddleOCR** / **docTR** (Apache-2.0) — good on semi-neat handwriting.
@@ -121,7 +134,7 @@ confirms. **On-device, offline, zero hallucination.**
 
 > **Code license ≠ model-weight license.** The models above are chosen because *both* are permissive.
 
-### 6.2 The no-hallucination pipeline (why it's structurally safe)
+### 7.2 The no-hallucination pipeline (why it's structurally safe)
 
 ```
 photo
@@ -146,22 +159,11 @@ photo
 *point at* items that already exist in the catalog. Even mediocre recognition is *usable* because the
 merchant always confirms, and the alias table sharpens accuracy per shop over time.
 
-### 6.3 IP protection
+### 7.3 IP protection
 
 The handwriting pipeline is deployed as a **separate service with a clean API** (a distinct program
 the Frappe app merely *calls*). A separate program is **not** part of the GPL work, so this — our real
 IP — **stays private even when the base is installed on a merchant's machine.**
-
----
-
-## 7. Phase 4 — Phone-as-scanner syncing to laptop
-
-- **Top approach (simplest robust):** laptop runs a local web server; phone opens a URL / scans a
-  pairing QR → **PWA using `getUserMedia` + html5-qrcode** decodes on the phone → result pushed to the
-  laptop over **local WiFi via WebSocket** (`ws`, MIT). No cloud, no app-store install.
-- **Fallback:** `hid-barcode-scanner` (FOSS Android) turns a phone into a **Bluetooth HID keyboard** —
-  scanned code is "typed" into the focused field. Zero integration code.
-- **Avoid for now:** WebRTC-via-QR peer connection (FOSS examples are immature/WIP).
 
 ---
 
@@ -224,7 +226,8 @@ Optional: nightly backup → USB drive (offline) or paid cloud endpoint (upsell)
 
 ## 10. Open questions / risks
 
-- **Phase 3 accuracy is unproven** until we prototype on *real* merchant handwriting. The confirm-first
+- **Handwriting accuracy (Phase 4) is unproven** until we prototype on *real* merchant handwriting
+  (the Phase 0 spike). The confirm-first
   design makes even mediocre recognition usable, but validate before promising anything.
 - **Tally-acceptance (Path A):** confirm the exact export format/fields CAs will accept.
 - **GST law upkeep:** handled by the India Compliance community — monitor their releases.
