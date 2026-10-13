@@ -3,7 +3,7 @@
 > How we build the product in stages, what ships when, effort estimates, and the
 > Path A → Path B business strategy.
 
-Status: **Draft v1** · Last updated: 2026-07-15
+Status: **Draft v1** · Last updated: 2026-10-09
 Companion docs: [`architecture.md`](./architecture.md) · [`dev-boundaries.md`](./dev-boundaries.md)
 
 ---
@@ -17,6 +17,8 @@ Export clean data to Tally             Flip on ERPNext's full
 so the CA is happy →                   accounting/GST/audit that's
 switching cost ≈ 0.                    already underneath.
 ```
+
+> **Decided (2026-10-09): we go with Path A.** Phase 0 is under way.
 
 - **Sell on Path A** (easy pitch: better daily experience + scanning + handwriting magic + real support).
 - **Architect for Path B** (the base already has full accounting/GST/audit — switch it on once merchants
@@ -46,7 +48,10 @@ switching cost ≈ 0.                    already underneath.
       recognition good enough to be useful? (It usually is, because the human confirms.)
 - [ ] Read Frappe trademark policy; pick a product name.
 
-**Exit:** base runs; handwriting accuracy is understood; go/no-go on the AI feature.
+> **Backlogged (2026-10-09):** the handwriting spike is moved out of Phase 0. It can run any time
+> before Phase 4 starts (it only gates Phase 4, not the MVP).
+
+**Exit:** base runs; GST/audit reports confirmed. *(Handwriting go/no-go deferred — see above.)*
 
 ---
 
@@ -159,7 +164,7 @@ validates demand before the biggest build.
 
 | Risk | Mitigation |
 |------|------------|
-| Handwriting accuracy on messy notes | Spike in Phase 0; confirm-first design makes it usable even at mediocre accuracy; alias learning improves it per shop. |
+| Handwriting accuracy on messy notes | Spike before Phase 4 (backlogged from Phase 0); confirm-first design makes it usable even at mediocre accuracy; alias learning improves it per shop. |
 | CA won't accept our data (Path A) | Validate Tally export with a real CA early (Phase 5). |
 | GST rules change | India Compliance community maintains this for free — track their releases. |
 | GPL obligations on-premise | Keep handwriting as a separate private API service; provide GPL base source only if asked (merchants rarely ask). |
@@ -169,7 +174,7 @@ validates demand before the biggest build.
 
 ## 6. Immediate next actions
 
-1. Create `D:\code\merchant-billing\` project structure (this docs folder is the start).
+1. ~~Create the project repo~~ — done: `super-duper-octo-broccoli/` (this repo).
 2. Execute **Phase 0**: install ERPNext + India Compliance; run the handwriting accuracy spike.
 3. Decide product name (after reading Frappe trademark policy).
 4. Line up 2–3 friendly merchants + 1 CA for validation feedback.

@@ -19,3 +19,6 @@ node_modules/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Generated local compose (contains secrets)
+infra/compose.local.yaml

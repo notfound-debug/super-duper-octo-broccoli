@@ -3,7 +3,7 @@
 > The one rule that keeps this project upgradeable and license-clean.
 > Read this before writing code against ERPNext. If you're unsure, this doc decides.
 
-Status: **v1** · Last updated: 2026-07-16
+Status: **v1** · Last updated: 2026-10-09
 Companion docs: [`architecture.md`](./architecture.md) · [`phased-plan.md`](./phased-plan.md)
 
 ---
@@ -31,7 +31,7 @@ If you follow this rule, two good things happen automatically:
 ## 1. Where our code lives
 
 ```
-D:/code/merchant-billing/
+super-duper-octo-broccoli/        (this repo)
 ├── vendor/                      ← REFERENCE ONLY. Never edit. Gitignored.
 │   ├── frappe/                  (MIT)     the framework
 │   ├── erpnext/                 (GPLv3)   billing/inventory/accounting/GST
