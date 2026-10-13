@@ -12,7 +12,7 @@ Decision recorded: **Path A ("feed Tally")** — confirmed 2026-10-09.
 | # | Task | Status |
 |---|------|--------|
 | 1 | Install ERPNext + India Compliance on the laptop | ✅ done 2026-10-09 — frappe 16.51.0, erpnext 16.50.0, india_compliance 16.10.0 (see [`infra/`](../infra/README.md)) |
-| 2 | Configure sample Indian retail company (GST, HSN, tax slabs, products, supplier, customer) | ⬜ |
+| 2 | Configure sample Indian retail company (GST, HSN, tax slabs, products, supplier, customer) | ✅ done 2026-10-13 — `Demo Kirana Store` (see [`worklog`](./worklog/2026-10-09__phase0__sample-retail-company/02-done.md)); HSN/rates owed a CA check |
 | 3 | GST invoice + GSTR-1/3B + P&L/balance sheet → confirm audit-readiness | ⬜ |
 | 4 | Handwriting spike: 2–3 real merchants' sheets through OCR/VLM → go/no-go | ⏸️ **backlog** (2026-10-09) — run any time before Phase 4 |
 | 5 | Read Frappe trademark policy; pick product name | 🟡 policy read (below); name not yet chosen |
